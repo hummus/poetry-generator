@@ -7,12 +7,12 @@ import base64
 import yaml
 import re
 
-try:
-    import en
-except:
-    print("DOWNLOD NODECUBE")
-    print("""wget https://www.nodebox.net/code/data/media/linguistics.zip
-unzip linguistics.zip""")
+#try:
+from pattern import en
+#except:
+#    print("DOWNLOD NODECUBE")
+#    print("""wget https://www.nodebox.net/code/data/media/linguistics.zip
+# unzip linguistics.zip""")
 
 VERSION = "1.1"
 
@@ -50,13 +50,15 @@ class bnfDictionary:
                             v = self.generate("<theme-verb>", 1).strip()
                         if "verb-inf" in word:
                             string = string + \
-                                en.verb.present_participle(v) + " "
+                                en.conjugate(v, 'inf') + " "
                         elif "verb-pr" in word:
                             string = string + \
-                                en.verb.present(
-                                    v, person=3, negate=False) + " "
+                                en.conjugate(v, en.PRESENT, person=3, negate=False) + " "
+                                #verb.present(
+                                #    v, person=3, negate=False) + " "
                         elif "verb-past" in word:
-                            string = string + en.verb.past(v) + " "
+                            string = string + en.conjugate(v, en.PAST) + " "
+                            # string = string + en.verb.past(v) + " "
                         else:
                             string = string + v + " "
                     elif "noun" in word:
@@ -69,12 +71,12 @@ class bnfDictionary:
                         if random.randint(1, 100) < THEME_PROB:
                             v = self.generate("<theme-noun>", 1).strip()
                         if "pl" in word:
-                            v = en.noun.plural(v)
+                            v = en.pluralize(v)
                         string = string + v + " "
                     elif "person" in word:
                         v = self.generate("<person>", 1).strip()
                         if "pl" in word:
-                            v = en.noun.plural(v)
+                            v = en.pluralize(v)
                         string = string + v + " "
                     elif "adj" in word:
                         if "mushy" in self.poemtype:
@@ -88,16 +90,16 @@ class bnfDictionary:
                     elif "fruit" in word:
                         v = self.generate("<fruit>", 1).strip()
                         if "pl" in word:
-                            v = en.noun.plural(v)
+                            v = en.pluralize(v)
                         string = string + self.generate(word, 1) + " "
                     elif "person" in word:
                         v = self.generate("<fruit>", 1).strip()
                         if "pl" in word:
-                            v = en.noun.plural(v)
+                            v = en.pluralize(v)
                         string = string + self.generate(word, 1) + " "
                     else:
                         if "-pl" in word:
-                            v = en.noun.plural(self.generate(word.replace("-pl",""),1))
+                            v = en.pluralize(self.generate(word.replace("-pl",""),1))
                         else:
                             v = self.generate(word, 1)
                         string = string + v + " "
