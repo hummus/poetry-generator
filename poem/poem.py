@@ -218,7 +218,7 @@ class bnfDictionary:
         newPoem2 = newPoem2 + "</p>"
         return newPoem2,seed_str
 
-bnf = bnfDictionary('brain.yaml')
+bnf = bnfDictionary(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'brain.yaml'))
 
 
 def generate_poem(poemtype, hex_seed=None):

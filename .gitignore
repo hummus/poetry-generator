@@ -2,3 +2,6 @@ bin/
 include/
 lib/
 local/
+dist/
+*egg-info*
+*.pyc
